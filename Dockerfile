@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.6
 LABEL MAINTAINER J. Koppe <post@jankoppe.de>
 RUN apk add --no-cache --virtual .build-deps\
       automake \
@@ -20,6 +20,7 @@ RUN apk add --no-cache --virtual .build-deps\
       py-pip \
       util-linux-dev \
       && apk add --no-cache --virtual .runtime-deps \
+      ca-certificates \
       flex \
       libmicrohttpd \
       libusb-compat \
@@ -33,13 +34,13 @@ RUN apk add --no-cache --virtual .build-deps\
       && ./autogen.sh --enable-ipv6 \
       && make && make install \
       && cd / \
-      && wget https://www.intra2net.com/en/developer/libftdi/download/libftdi-0.20.tar.gz \
-      && tar xfz libftdi-0.20.tar.gz \
-      && cd libftdi-0.20 \
-      && ./configure --without-examples \
-      && make && make install \
-      && cd / \
-      && git clone https://github.com/OpenLightingProject/ola.git --depth 1 -b 0.10.4 ola \
+#      && wget https://www.intra2net.com/en/developer/libftdi/download/libftdi-0.20.tar.gz \
+#      && tar xfz libftdi-0.20.tar.gz \
+#      && cd libftdi-0.20 \
+#      && ./configure --without-examples \
+#      && make && make install \
+#      && cd / \
+      && git clone https://github.com/OpenLightingProject/ola.git --depth 1 -b 0.10.5 ola \
       && cd ola \
       && autoreconf -i \
       && ./configure \
